@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
-import Customers from './Customers'
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './Styles/App.css';
+import './Styles/Tablas.css';
+import './Styles/Botones.css';
+import Nodos from './Nodos';
+import Configuracion from './Configuracion'; 
+import NuevoNodo from './NuevoNodo'; 
+import Optimizar from './Optimizar'; 
 import { BrowserRouter as Router, Switch, Route, Redirect} from 'react-router-dom';
 
 
@@ -9,18 +14,16 @@ class App extends Component {
   render() {
     console.log("Host URL"+process.env.PUBLIC_URL);
     return (
-
       <Router basename={process.env.PUBLIC_URL}>
         <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Simple React App</h1>
-        </header>
           <Switch>
-                <Route exact path= "/" render={() => (
-                  <Redirect to="/customerlist"/>
-                )}/>
-                <Route exact path='/customerlist' component={Customers} />
+            <Route exact path= "/" render={() => (
+              <Redirect to="/lista-nodos"/>
+            )}/>
+            <Route exact path='/lista-nodos' component={Nodos} />
+            <Route exact path='/configuracion' component={Configuracion} />
+            <Route exact path='/nuevo-nodo' component={NuevoNodo} />
+            <Route exact path='/optimizar' component={Optimizar} />
           </Switch>
       </div>
     </Router>

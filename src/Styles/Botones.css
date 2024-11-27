@@ -1,0 +1,31 @@
+.action-buttons {
+    display: flex; 
+    justify-content: center; 
+    gap: 16px; 
+    margin-top: 20px; 
+    }
+
+.action-buttons .btn {
+    display: flex; 
+    align-items: center;
+    gap: 8px;
+    font-size: 16px; 
+    padding: 10px; 
+    margin-inline: 16px;
+    background-color: #1E1E1E;
+    color: #F5F5F5;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; 
+}
+
+.action-buttons .btn:hover {
+    background-color: #0b0c0c;
+    color: #F5F5F5;
+}
+
+.action-buttons .btn .MuiSvgIcon-root {
+    font-size: 16px;
+    vertical-align: middle;
+}

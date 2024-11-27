@@ -1,0 +1,201 @@
+[
+    {"nodoID": 0, 
+    "latitud": -31.5278, 
+    "longitud": -68.5262, 
+    "demanda": 10, 
+    "tiempoInicio": 480, 
+    "tiempoFin": 540, 
+    "servicioDuración": 90
+},{
+    "nodoID": 1,
+    "latitud": -31.5401,
+    "longitud": -68.5132,
+    "demanda": 30,
+    "tiempoInicio": 420,
+    "tiempoFin": 480,
+    "servicioDuración": 90
+}, {
+    "nodoID": 2,
+    "latitud": -31.5500,
+    "longitud": -68.5000,
+    "demanda": 10,
+    "tiempoInicio": 600,
+    "tiempoFin": 660,
+    "servicioDuración": 90
+}, {
+    "nodoID": 3,
+    "latitud": -31.5100,
+    "longitud": -68.4900,
+    "demanda": 10,
+    "tiempoInicio": 300,
+    "tiempoFin": 360,
+    "servicioDuración": 90
+}, {
+    "nodoID": 4,
+    "latitud": -31.5200,
+    "longitud": -68.5300,
+    "demanda": 10,
+    "tiempoInicio": 800,
+    "tiempoFin": 900,
+    "servicioDuración": 90
+}, {
+    "nodoID": 5,
+    "latitud": -31.5333,
+    "longitud": -68.5350,
+    "demanda": 20,
+    "tiempoInicio": 100,
+    "tiempoFin": 160,
+    "servicioDuración": 90
+}, {
+    "nodoID": 6,
+    "latitud": -31.5412,
+    "longitud": -68.5500,
+    "demanda": 20,
+    "tiempoInicio": 540,
+    "tiempoFin": 600,
+    "servicioDuración": 90
+}, {
+    "nodoID": 7,
+    "latitud": -31.5200,
+    "longitud": -68.5200,
+    "demanda": 20,
+    "tiempoInicio": 660,
+    "tiempoFin": 720,
+    "servicioDuración": 90
+}, {
+    "nodoID": 8,
+    "latitud": -31.5100,
+    "longitud": -68.5300,
+    "demanda": 10,
+    "tiempoInicio": 480,
+    "tiempoFin": 540,
+    "servicioDuración": 90
+}, {
+    "nodoID": 9,
+    "latitud": -31.5400,
+    "longitud": -68.5350,
+    "demanda": 10,
+    "tiempoInicio": 380,
+    "tiempoFin": 440,
+    "servicioDuración": 90
+}, {
+    "nodoID": 10,
+    "latitud": -31.5450,
+    "longitud": -68.5400,
+    "demanda": 10,
+    "tiempoInicio": 540,
+    "tiempoFin": 600,
+    "servicioDuración": 90
+}, {
+    "nodoID": 11,
+    "latitud": -31.5230,
+    "longitud": -68.5320,
+    "demanda": 20,
+    "tiempoInicio": 600,
+    "tiempoFin": 660,
+    "servicioDuración": 90
+}, {
+    "nodoID": 12,
+    "latitud": -31.5380,
+    "longitud": -68.5150,
+    "demanda": 30,
+    "tiempoInicio": 200,
+    "tiempoFin": 260,
+    "servicioDuración": 90
+}, {
+    "nodoID": 13,
+    "latitud": -31.5300,
+    "longitud": -68.5280,
+    "demanda": 10,
+    "tiempoInicio": 660,
+    "tiempoFin": 720,
+    "servicioDuración": 90
+}, {
+    "nodoID": 14,
+    "latitud": -31.5320,
+    "longitud": -68.5220,
+    "demanda": 40,
+    "tiempoInicio": 300,
+    "tiempoFin": 360,
+    "servicioDuración": 90
+}, {
+    "nodoID": 15,
+    "latitud": -31.5340,
+    "longitud": -68.5180,
+    "demanda": 40,
+    "tiempoInicio": 720,
+    "tiempoFin": 780,
+    "servicioDuración": 90
+}, {
+    "nodoID": 16,
+    "latitud": -31.5290,
+    "longitud": -68.5290,
+    "demanda": 20,
+    "tiempoInicio": 420,
+    "tiempoFin": 480,
+    "servicioDuración": 90
+}, {
+    "nodoID": 17,
+    "latitud": -31.5250,
+    "longitud": -68.5230,
+    "demanda": 20,
+    "tiempoInicio": 500,
+    "tiempoFin": 560,
+    "servicioDuración": 90
+}, {
+    "nodoID": 18,
+    "latitud": -31.5500,
+    "longitud": -68.5400,
+    "demanda": 10,
+    "tiempoInicio": 600,
+    "tiempoFin": 660,
+    "servicioDuración": 90
+}, {
+    "nodoID": 19,
+    "latitud": -31.5350,
+    "longitud": -68.5300,
+    "demanda": 10,
+    "tiempoInicio": 300,
+    "tiempoFin": 360,
+    "servicioDuración": 90
+}, {
+    "nodoID": 20,
+    "latitud": -31.5455,
+    "longitud": -68.5405,
+    "demanda": 20,
+    "tiempoInicio": 400,
+    "tiempoFin": 460,
+    "servicioDuración": 90
+}, {
+    "nodoID": 21,
+    "latitud": -31.5505,
+    "longitud": -68.5380,
+    "demanda": 20,
+    "tiempoInicio": 480,
+    "tiempoFin": 540,
+    "servicioDuración": 90
+}, {
+    "nodoID": 22,
+    "latitud": -31.5325,
+    "longitud": -68.5205,
+    "demanda": 10,
+    "tiempoInicio": 300,
+    "tiempoFin": 360,
+    "servicioDuración": 90
+}, {
+    "nodoID": 23,
+    "latitud": -31.5380,
+    "longitud": -68.5155,
+    "demanda": 10,
+    "tiempoInicio": 660,
+    "tiempoFin": 720,
+    "servicioDuración": 90
+}, {
+    "nodoID": 24,
+    "latitud": -31.5415,
+    "longitud": -68.5250,
+    "demanda": 40,
+    "tiempoInicio": 540,
+    "tiempoFin": 600,
+    "servicioDuración": 90
+}]
