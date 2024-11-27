@@ -1,77 +1,42 @@
-# Simple React JS Project
+# CVRP-TW Frontend
 
-## What is the use of this Repo
+## Descripción
 
-This Project is a Simple ReactJS Project which demonstrates the following
-1. Creating a Component in React
-2. Making HTTP calls
-3. Communicating between parent and child component
-4. Using Bootstrap along with React
-5. Using Basic Routing in React
+Este proyecto es un frontend que permite cargar nodos para optimizar un problema de Vehicle Routing Problem with Time Windows (CVRP-TW). El objetivo es proporcionar una interfaz de usuario intuitiva para cargar y visualizar los nodos, y así facilitar la resolución del problema.
 
-The project Template can be used to build bigger projects
+## Características
 
-## Live Application URL
+* Carga de nodos mediante archivo CSV o JSON
+* Visualización de los nodos en un mapa
+* Selección de algoritmos de optimización para resolver el problema CVRP-TW
+* Visualización de las rutas óptimas encontradas
 
-### https://aditya-sridhar.github.io/simple-reactjs-app
-This URL has the application deployed in
+## Requisitos
 
-## Prerequisites
+* Node.js 14 o superior
+* Navegador web compatible con HTML5 y CSS3
 
-### Install Node JS
-Refer to https://nodejs.org/en/ to install nodejs
+## Instalación
 
-### Install create-react-app
-Install create-react-app npm package globally. This will help to easily run the project and also build the source files easily. Use the following command to install create-react-app
+1. Clona el repositorio: `git clone https://github.com/tu-repositorio/cvrp-tw-frontend.git`
+2. Instala las dependencias: `npm install`
+3. Inicia el servidor de desarrollo: `npm start`
 
-```bash
-npm install -g create-react-app
-```
-## Live Application URL
+## Uso
 
-The Application is deployed in https://aditya-sridhar.github.io/simple-reactjs-app
+1. Carga los nodos mediante archivo CSV o JSON en la sección "Cargar nodos"
+2. Selecciona el algoritmo de optimización deseado en la sección "Algoritmos"
+3. Haz clic en "Resolver" para ejecutar el algoritmo y visualizar las rutas óptimas
 
-Click on the link to see the application
+## Contribución
 
-## Cloning and Running the Application in local
+Si deseas contribuir a este proyecto, por favor sigue los siguientes pasos:
 
-Clone the project into local
+1. Haz un fork del repositorio
+2. Crea una rama para tu característica o corrección de bug
+3. Realiza los cambios y haz un commit con un mensaje descriptivo
+4. Haz un pull request para que podamos revisar tus cambios
 
-Install all the npm packages. Go into the project folder and type the following command to install all npm packages
+## Licencia
 
-```bash
-npm install
-```
-
-In order to run the application Type the following command
-
-```bash
-npm start
-```
-
-The Application Runs on **localhost:3000**
-
-## Application design
-
-#### Components
-
-1. **Customers** Component : This Component displays a list of customers. This Component gets the data from a json file in assets folder
-
-2. **CustomerDetails** Component : This Component Displays the details of the selected customer. This Component gets its data from a json file in assets folder as well. This Component is the Child Component of *Customers* Component
-
-#### HTTP client
-
-**axios** library is used to make HTTP Calls
-
-#### URL
-
-The application has just one url /customerlist which ties to *Customers* Component
-
-## Resources
-
-**create-react-app** : The following link has all the commands that can be used with create-react-app
-https://github.com/facebook/create-react-app
-
-**ReactJS** : Refer to https://reactjs.org/ to understand the concepts of ReactJS
-
-**React Bootstrap** : Refer to https://react-bootstrap.github.io/getting-started/introduction/ to understand how to use React Bootstrap
+Este proyecto está licenciado bajo la licencia MIT.
