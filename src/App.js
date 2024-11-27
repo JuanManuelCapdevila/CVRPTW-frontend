@@ -20,7 +20,7 @@ class App extends Component {
                 <Route exact path= "/" render={() => (
                   <Redirect to="/customerlist"/>
                 )}/>
-                 <Route exact path='/customerlist' component={Customers} />
+                <Route exact path='/customerlist' component={Customers} />
           </Switch>
       </div>
     </Router>
