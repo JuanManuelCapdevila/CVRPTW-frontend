@@ -37,6 +37,8 @@ const NuevoNodo = () => {
         localStorage.setItem('nodos', JSON.stringify(nodes));
 
         alert('Nodo guardado exitosamente.');
+        this.props.history.push('/lista-nodos');
+
     };
 
     const calcularDuracion = (horaInicio, horaFin) => {
