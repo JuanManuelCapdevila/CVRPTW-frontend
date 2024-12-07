@@ -4,11 +4,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './Styles/App.css';
 import './Styles/Botones.css';
 import './Styles/Tablas.css';
-import Nodos from './Nodos';
-import Configuracion from './Configuracion'; 
-import NuevoNodo from './NuevoNodo'; 
-import Optimizar from './Optimizar'; 
-import ModificarNodo from './ModificarNodo';
+import Nodos from './Views/Nodos';
+import Configuracion from './Views/Configuracion'; 
+import NuevoNodo from './Views/NuevoNodo'; 
+import Optimizar from './Views/Optimizar'; 
+import ModificarNodo from './Views/ModificarNodo';
 
 class App extends Component {
   render() {
