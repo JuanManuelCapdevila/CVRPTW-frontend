@@ -1,0 +1,54 @@
+[
+    {
+        "vehiculoID": "Vehículo 01",
+        "capacidad": "XX",
+        "nodos": [
+            {   "nodoID": 0, 
+                "latitud": -31.5278, 
+                "longitud": -68.5262, 
+                "demanda": 10, 
+                "tiempoInicio": 480, 
+                "tiempoFin": 540, 
+                "servicioDuración": 90
+            },{
+                "nodoID": 1,
+                "latitud": -31.5401,
+                "longitud": -68.5132,
+                "demanda": 30,
+                "tiempoInicio": 420,
+                "tiempoFin": 480,
+                "servicioDuración": 90
+            }
+        ]
+    },
+    {
+        "vehiculoID": "Vehículo 02",
+        "capacidad": "YY",
+        "nodos": [
+            {
+                "nodoID": 2,
+                "latitud": -31.5500,
+                "longitud": -68.5000,
+                "demanda": 10,
+                "tiempoInicio": 600,
+                "tiempoFin": 660,
+                "servicioDuración": 90
+            }
+        ]
+    },
+    {
+        "vehiculoID": "Vehículo 03",
+        "capacidad": "ZZ",
+        "nodos": [
+            {
+                "nodoID": 3,
+                "latitud": -31.5100,
+                "longitud": -68.4900,
+                "demanda": 10,
+                "tiempoInicio": 300,
+                "tiempoFin": 360,
+                "servicioDuración": 90
+            }
+        ]
+    }
+]

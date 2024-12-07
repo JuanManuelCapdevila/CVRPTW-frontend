@@ -1,3 +1,7 @@
+a {
+    text-decoration: none;
+}
+
 .action-buttons {
     display: flex; 
     justify-content: center; 
@@ -28,4 +32,74 @@
 .action-buttons .btn .MuiSvgIcon-root {
     font-size: 16px;
     vertical-align: middle;
+}
+
+.top-button {
+    position: absolute;
+    top: 40px; 
+    right: 60px; 
+    z-index: 1000; 
+}
+
+.home-button {
+    background-color: white; 
+    border: 4px solid #6c63ff; 
+    border-radius: 50%; 
+    width: 50px; 
+    height: 50px; 
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    cursor: pointer; 
+    transition: all 0.3s ease-in-out; 
+}
+
+.home-button:hover {
+    background-color: #6c63ff; 
+    color: white; 
+    transform: scale(1.1); 
+}
+
+.home-button svg {
+    font-size: 24px; 
+}
+
+.icon-button {
+    color: #1E1E1E;
+    transition: all 0.3s ease-in-out; 
+}
+
+.icon-button:hover {
+    color: #0b0c0c;
+}
+
+.expand-button {
+    font-size: 12px;
+    background-color: #f9f9f9; 
+    color: black;
+    border: none;
+    border-radius: 4px;
+    margin-top: 30px;
+    padding-block: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.expand-button:hover {
+    background-color: #f1f0f0;
+}
+
+.delete-button {
+    font-size: 14px;
+    background-color: red;
+    color: white;
+    border: none;
+    justify-content: center;
+    align-items: center;
+    display: flex; 
+    gap: 4px;
+}
+
+.delete-button:hover {
+    background-color: rgb(211, 5, 5);
 }

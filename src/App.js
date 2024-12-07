@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
+import { BrowserRouter as Router, Switch, Route, Redirect} from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Styles/App.css';
-import './Styles/Tablas.css';
 import './Styles/Botones.css';
+import './Styles/Tablas.css';
 import Nodos from './Nodos';
 import Configuracion from './Configuracion'; 
 import NuevoNodo from './NuevoNodo'; 
 import Optimizar from './Optimizar'; 
-import { BrowserRouter as Router, Switch, Route, Redirect} from 'react-router-dom';
-
+import ModificarNodo from './ModificarNodo';
 
 class App extends Component {
   render() {
@@ -24,6 +24,7 @@ class App extends Component {
             <Route exact path='/configuracion' component={Configuracion} />
             <Route exact path='/nuevo-nodo' component={NuevoNodo} />
             <Route exact path='/optimizar' component={Optimizar} />
+            <Route path='/modificar-nodo/:nodoID' component={ModificarNodo} />
           </Switch>
       </div>
     </Router>
