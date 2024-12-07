@@ -3,11 +3,11 @@ import { Link } from 'react-router-dom';
 import { Table } from 'react-bootstrap';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './Styles/App.css';
-import './Styles/Botones.css';
-import './Styles/Container.css';
-import './Styles/Tablas.css';
-import './Styles/Vehiculos.css';
+import '../Styles/App.css';
+import '../Styles/Botones.css';
+import '../Styles/Container.css';
+import '../Styles/Tablas.css';
+import '../Styles/Vehiculos.css';
 import { Home, KeyboardArrowDown, KeyboardArrowUp } from '@mui/icons-material';
 
 class Optimizar extends Component  {

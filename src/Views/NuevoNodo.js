@@ -1,11 +1,11 @@
 import React, { useState} from 'react';
 import { Link } from 'react-router-dom'; 
 import { Form, Button, Row, Col } from 'react-bootstrap';
-import axios from 'axios';
+
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './Styles/App.css';
-import './Styles/Botones.css';
-import './Styles/Container.css';
+import '../Styles/App.css';
+import '../Styles/Botones.css';
+import '../Styles/Container.css';
 import { HighlightOff, Home, TaskAlt } from '@mui/icons-material';
 
 const NuevoNodo = () => {
@@ -92,8 +92,8 @@ const NuevoNodo = () => {
                 </Form>
 
                 <div className="action-buttons">
-                    <Button onClick={handleSave}><TaskAlt />Guardar</Button>
-                    <Link to="/lista-nodos">
+                        <Button onClick={handleSave} disabled={!latitud || !longitud || !demanda || !horaInicio || !horaFin}><TaskAlt />Guardar</Button>
+                        <Link to="/lista-nodos">
                         <Button><HighlightOff />Cancelar</Button>
                     </Link>
                 </div>

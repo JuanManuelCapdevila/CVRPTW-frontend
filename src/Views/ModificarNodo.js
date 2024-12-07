@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import { Link, withRouter } from 'react-router-dom'; 
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './Styles/App.css';
-import './Styles/Botones.css';
-import './Styles/Container.css';
-import './Styles/Nodos.css';
+import '../Styles/App.css';
+import '../Styles/Botones.css';
+import '../Styles/Container.css';
+import '../Styles/Nodos.css';
 import { DeleteOutline, HighlightOff, Home, TaskAlt } from '@mui/icons-material';
 
 class ModificarNodo extends Component {

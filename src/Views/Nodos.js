@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom'; 
 import { Table } from 'react-bootstrap';
 import axios from 'axios';
-import './Styles/App.css';
-import './Styles/Botones.css';
-import './Styles/Nodos.css';
-import './Styles/Tablas.css';
+import '../Styles/App.css';
+import '../Styles/Botones.css';
+import '../Styles/Nodos.css';
+import '../Styles/Tablas.css';
 import { AccessTime, AddCircleOutline, Build, LocalShipping, Settings } from '@mui/icons-material';
 
 export default class Customers extends Component {

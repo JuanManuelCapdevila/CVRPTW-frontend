@@ -2,9 +2,9 @@ import React from 'react';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom'; 
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './Styles/App.css';
-import './Styles/Botones.css';
-import './Styles/Container.css';
+import '../Styles/App.css';
+import '../Styles/Botones.css';
+import '../Styles/Container.css';
 import { HighlightOff, Home, TaskAlt } from '@mui/icons-material';
 
 const Configuracion = () => {
