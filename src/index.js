@@ -2,5 +2,14 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+import { BrowserRouter } from 'react-router-dom';
+import { ConfigProvider } from './context/ConfigContext';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(
+  <BrowserRouter>
+    <ConfigProvider>
+      <App />
+    </ConfigProvider>
+  </BrowserRouter>,
+  document.getElementById('root')
+);

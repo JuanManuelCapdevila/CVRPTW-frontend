@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/cvrptw-frontend/static/css/main.2422c34d.css",
+    "main.js": "/cvrptw-frontend/static/js/main.049f8f71.js",
+    "index.html": "/cvrptw-frontend/index.html",
+    "main.2422c34d.css.map": "/cvrptw-frontend/static/css/main.2422c34d.css.map",
+    "main.049f8f71.js.map": "/cvrptw-frontend/static/js/main.049f8f71.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.2422c34d.css",
+    "static/js/main.049f8f71.js"
+  ]
+}

@@ -158,44 +158,4 @@
     "tiempoInicio": 300,
     "tiempoFin": 360,
     "servicioDuración": 90
-}, {
-    "nodoID": 20,
-    "latitud": -31.5455,
-    "longitud": -68.5405,
-    "demanda": 20,
-    "tiempoInicio": 400,
-    "tiempoFin": 460,
-    "servicioDuración": 90
-}, {
-    "nodoID": 21,
-    "latitud": -31.5505,
-    "longitud": -68.5380,
-    "demanda": 20,
-    "tiempoInicio": 480,
-    "tiempoFin": 540,
-    "servicioDuración": 90
-}, {
-    "nodoID": 22,
-    "latitud": -31.5325,
-    "longitud": -68.5205,
-    "demanda": 10,
-    "tiempoInicio": 300,
-    "tiempoFin": 360,
-    "servicioDuración": 90
-}, {
-    "nodoID": 23,
-    "latitud": -31.5380,
-    "longitud": -68.5155,
-    "demanda": 10,
-    "tiempoInicio": 660,
-    "tiempoFin": 720,
-    "servicioDuración": 90
-}, {
-    "nodoID": 24,
-    "latitud": -31.5415,
-    "longitud": -68.5250,
-    "demanda": 40,
-    "tiempoInicio": 540,
-    "tiempoFin": 600,
-    "servicioDuración": 90
 }]

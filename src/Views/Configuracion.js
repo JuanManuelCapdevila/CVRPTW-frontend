@@ -1,14 +1,33 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom'; 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../Styles/App.css';
 import '../Styles/Botones.css';
 import '../Styles/Container.css';
+import { ConfigContext } from '../context/ConfigContext'; // Importamos el contexto
+import { COSaService } from '../services/COSaService'; // Importamos el servicio
+
 import { HighlightOff, Home, TaskAlt } from '@mui/icons-material';
 
 const Configuracion = () => {
-    {/*AGREGAR FUNCIONALIDAD PARA GUARDAR LA CONFIGURACIÓN EN BACKEND */}
+    const { config, setConfig } = useContext(ConfigContext);  // Usamos el hook useContext para acceder al contexto
+
+    useEffect(() => {
+        getConfig();
+    }, []);
+    const getConfig = async () => {
+            try {
+                const response = await COSaService.getConfig();  // Usamos el servicio aquí
+                if (response) {
+                    
+                    setConfig(response.data[0]);  // Actualiza el contexto con la respuesta de la API
+                }
+            } catch (error) {
+                console.error('Error loading configuration data:', error);
+                setError('No se pudo cargar la configuración');
+            }
+        };
 
     return (
         <div className='addmargin'>
@@ -25,36 +44,36 @@ const Configuracion = () => {
                         <Form.Group as={Row} className="mb-3" controlId="formVehiculos">
                             <Form.Label column sm={4}>Cantidad de Vehículos</Form.Label>
                             <Col sm={4}>
-                                <Form.Control type='text' placeholder='Cantidad'></Form.Control>
+                                <Form.Control type='text' placeholder='Cantidad' value={config?.maxVehicles||""}></Form.Control>
                             </Col>
                         </Form.Group>
 
                         <Form.Group as={Row} className="mb-3" controlId="formCapacidad">
                             <Form.Label column sm={4}>Capacidad</Form.Label>
                             <Col sm={4}>
-                                <Form.Control type="text" placeholder="Capacidad" />
+                                <Form.Control type="text" placeholder="Capacidad" value={config?.capacity||""}/>
                             </Col>
                         </Form.Group>
 
                         <Form.Group as={Row} className="mb-3" controlId="formCoordenadas">
                             <Form.Label column sm={4}>Coordenadas de Depósito</Form.Label>
                             <Col sm={2}>
-                                <Form.Control type="text" placeholder="Latitud" />
+                                <Form.Control type="text" placeholder="Latitud" value={config?.depotx||""}/>
                             </Col>
                             <Col sm={2}>
-                                <Form.Control type="text" placeholder="Longitud" />
+                                <Form.Control type="text" placeholder="Longitud" value={config?.depoty||""} />
                             </Col>
                         </Form.Group>
 
                         <Form.Group as={Row} className="mb-3" controlId="formHorizonte">
                             <Form.Label column sm={4}>Horizonte</Form.Label>
                             <Col sm={4}>
-                                <Form.Control type="text" placeholder="Horizonte" />
+                                <Form.Control type="text" placeholder="Horizonte" value={config?.horizon||""} />
                             </Col>
                         </Form.Group>
                     </Form>
                     <div className="action-buttons">
-                        <Button><TaskAlt />Guardar</Button> {/*AGREGAR FUNCIONALIDAD PARA GUARDAR LA CONFIGURACIÓN EN BACKEND */}
+                        <Button><TaskAlt />Guardar</Button> 
                         <Link to="/lista-nodos">
                             <Button><HighlightOff />Cancelar</Button>
                         </Link>

@@ -1,79 +1,96 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect, useContext } from 'react';  // Importamos useContext y otros hooks
 import { Link } from 'react-router-dom'; 
 import { Table } from 'react-bootstrap';
-import axios from 'axios';
+import { AccessTime, AddCircleOutline, Build, LocalShipping, Settings } from '@mui/icons-material';
+import { ConfigContext } from '../context/ConfigContext'; // Importamos el contexto
+import { COSaService } from '../services/COSaService'; // Importamos el servicio
 import '../Styles/App.css';
 import '../Styles/Botones.css';
 import '../Styles/Nodos.css';
 import '../Styles/Tablas.css';
-import { AccessTime, AddCircleOutline, Build, LocalShipping, Settings } from '@mui/icons-material';
 
-export default class Customers extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-        nodeList: null,
-        nodeCount: 0,
-        };
-    }
+const Customers = () => {
+    const { config, setConfig, nodes,setNodes } = useContext(ConfigContext);  // Usamos el hook useContext para acceder al contexto
+    const [nodeCount, setNodeCount] = useState(0);
+    const [error, setError] = useState(null);
 
-    componentDidMount() {
-        this.getNodeData();
-    }
+    // Se llama después de que el componente se monta
+    useEffect(() => {
+        getConfig();
+        getNodeData();
+    }, []); // El segundo parámetro vacío asegura que solo se ejecute una vez al montar el componente
 
-    getNodeData() {
-        axios
-            .get('assets/samplejson/nodos.json') 
-            .then((response) => {
-                localStorage.setItem('nodos', JSON.stringify(response.data));
-
-                this.setState({ 
-                nodeList: response.data,
-                nodeCount: response.data.length
-            });
-        })
-        .catch((error) => {
-        console.error('Error loading node data:', error);
-        });
-    }
-
-    render() {
-        const { nodeList } = this.state;
-
-        if (!nodeList) {
-        return <p>Cargando datos...</p>;
+    // Función que obtiene la configuración usando el servicio COSaService
+    const getConfig = async () => {
+        try {
+            const response = await COSaService.getConfig();  // Usamos el servicio aquí
+            if (response) {
+                console.log(response);
+                
+                setConfig(response.data[0]);  // Actualiza el contexto con la respuesta de la API
+            }
+        } catch (error) {
+            console.error('Error loading configuration data:', error);
+            setError('No se pudo cargar la configuración');
         }
+    };
 
-        return (
-            <div className="addmargin">
-                <div className="main-container">
-                    <div className="tasks-container">
-                        <div className="header-grid">
-                            <h2 className="title">Tareas</h2>
-                            <p className="coordinates">Coordenadas: -32.485, -68.526 | Horizonte: 480 minutos | Cantidad de Vehículos: 3</p>
-                            <div className="task-summary-box">
-                                <AccessTime />
-                                <h4>{this.state.nodeCount}</h4>
-                                <h4>Tareas</h4>
-                            </div>
+    // Función que obtiene los nodos usando el servicio COSaService
+    const getNodeData = async () => {
+        try {
+            const response = await COSaService.getCustNodes();  // Usamos el servicio aquí
+            if (response) {
+                setNodeCount(response.data.length)
+                setNodes(response.data);
+            }
+        } catch (error) {
+            console.error('Error loading node data:', error);
+            setError('No se pudieron cargar los nodos');
+        }
+    };
+
+    if (error) {
+        return <p>{error}</p>; // Mostrar un mensaje de error si hay uno
+    }
+
+    if (!nodes) {
+        return <p>Cargando datos...</p>; // Mostrar un mensaje de carga mientras se esperan los datos
+    }
+
+    return (
+        <div className="addmargin">
+            <div className="main-container">
+                <div className="tasks-container">
+                    <div className="header-grid">
+                        <h2 className="title">Tareas</h2>
+                        <p className="coordinates">
+                            Coordenadas: {config.depotx}, {config.depoty} | 
+                            Horizonte: {config.horizon} minutos | 
+                            Cantidad de Vehículos: {config.maxVehicles}
+                        </p>
+                        <div className="task-summary-box">
+                            <AccessTime />
+                            <h4>{nodeCount}</h4>
+                            <h4>Tareas</h4>
                         </div>
+                    </div>
 
-                        <div className='table-wrapper'>
-                            <Table striped hover className="custom-table">
-                                <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th>Tarea Nº</th>
-                                        <th>Latitud</th>
-                                        <th>Longitud</th>
-                                        <th>Demanda</th>
-                                        <th>Tiempo Inicio</th>
-                                        <th>Tiempo Fin</th>
-                                        <th>Duración</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {nodeList.map((node, index) => (
+                    <div className="table-wrapper">
+                        <Table striped hover className="custom-table">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Tarea Nº</th>
+                                    <th>Latitud</th>
+                                    <th>Longitud</th>
+                                    <th>Demanda</th>
+                                    <th>Tiempo Inicio</th>
+                                    <th>Tiempo Fin</th>
+                                    <th>Duración</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {nodes.map((node) => (
                                     <tr key={node.nodoID} className="hide_all">
                                         <td>
                                             <Link
@@ -83,29 +100,29 @@ export default class Customers extends Component {
                                             >
                                                 <Settings />
                                             </Link>
-                                        </td> 
-                                        <td>{index.toString().padStart(2, '0')}</td>
-                                        <td>{node.latitud}</td>
-                                        <td>{node.longitud}</td>
-                                        <td>{node.demanda}</td>
-                                        <td>{node.tiempoInicio}</td>
-                                        <td>{node.tiempoFin}</td>
-                                        <td>{node.servicioDuración} minutos</td>
+                                        </td>
+                                        <td>{node.id}</td>
+                                        <td>{node.x}</td>
+                                        <td>{node.y}</td>
+                                        <td>{node.demand}</td>
+                                        <td>{node.begin}</td>
+                                        <td>{node.end}</td>
+                                        <td>{node.service} minutos</td>
                                     </tr>
-                                    ))}
-                                </tbody>
-                            </Table>
-                        </div>
+                                ))}
+                            </tbody>
+                        </Table>
+                    </div>
 
-                        <div className="action-buttons">
-                            <Link to="/configuracion" className="btn"><Build /> Configuración</Link>
-                            <Link to="/nuevo-nodo" className="btn"><AddCircleOutline /> Nuevo Nodo</Link>
-                            <Link to="/optimizar" className="btn"><LocalShipping /> Optimizar</Link>
-                        </div>
+                    <div className="action-buttons">
+                        <Link to="/configuracion" className="btn"><Build /> Configuración</Link>
+                        <Link to="/nuevo-nodo" className="btn"><AddCircleOutline /> Nuevo Nodo</Link>
+                        <Link to="/optimizar" className="btn"><LocalShipping /> Optimizar</Link>
                     </div>
                 </div>
-                
             </div>
-        );
-    }
-}
+        </div>
+    );
+};
+
+export default Customers;
