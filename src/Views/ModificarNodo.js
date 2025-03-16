@@ -1,159 +1,114 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Form, Button, Row, Col } from 'react-bootstrap';
-import { Link, withRouter } from 'react-router-dom'; 
+import { Link } from 'react-router-dom';
+import { DeleteOutline, HighlightOff, Home, TaskAlt } from '@mui/icons-material';
+import { ConfigContext } from '../context/ConfigContext';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../Styles/App.css';
 import '../Styles/Botones.css';
 import '../Styles/Container.css';
 import '../Styles/Nodos.css';
-import { DeleteOutline, HighlightOff, Home, TaskAlt } from '@mui/icons-material';
+import { COSaService } from '../services/COSaService';
 
-class ModificarNodo extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            nodo: null,
-        };
-    }
+const ModificarNodo = (props) => {
+    const nodoID = props.match.params.nodoID;
+    const { nodes } = useContext(ConfigContext);
+    const [message, setMessage] = useState(null);
 
-    componentDidMount() {
-        this.loadNodeData(this.props.match.params.nodoID);
-    }
+    // ✅ Inicialización con objeto vacío para evitar errores en inputs
+    const [nodo, setNodo] = useState({
+        id: '',
+        x: '',
+        y: '',
+        demand: '',
+        begin: '',
+        end: '',
+    });
 
-    loadNodeData(nodoID) {
-        const storedNodes = localStorage.getItem('nodos');
-        if ( storedNodes) {
-            const nodes = JSON.parse(storedNodes);
-            const nodo = nodes.find((n) => n.nodoID === parseInt(nodoID, 10));
-            if (nodo) {
-                this.setState({ nodo });
-            } else {
-                console.error('Nodo no encontrado');
-                this.setState({ nodo: null });
-            }
-        } else {
-            console.error('Nodos no encontrados en el almacenamiento local');
+    useEffect(() => {
+        const nodoEncontrado = nodes.find((n) => n.id === nodoID);
+        if (nodoEncontrado) {
+            setNodo(nodoEncontrado);
         }
-    }
+    }, [nodoID, nodes]);
 
-    handleInputChange = (event) => {
+    const handleInputChange = (event) => {
         const { name, value } = event.target;
-        this.setState((prevState) => ({
-            nodo: {
-                ...prevState.nodo,
-                [name]: value
-            }
+        setNodo((prevNodo) => ({
+            ...prevNodo,
+            [name]: value,
         }));
-    }
+    };
 
-    handleSave = () => {
-        const storedNodes = localStorage.getItem('nodos');
-        if (storedNodes) {
-            const nodes = JSON.parse(storedNodes);
-            const updatedNodes = nodes.map((n) => 
-                n.nodoID === this.state.nodo.nodoID ? this.state.nodo : n
-            );
+    const handleSave = async () => {
+        if (!nodo) return;
 
-            localStorage.setItem('nodos', JSON.stringify(updatedNodes));
+        const updatedNodes = nodes.map((n) => (n.id === nodo.id ? nodo : n));
+        await COSaService.saveCustNodes({custNode: updatedNodes});
+        setMessage('Nodo guardado exitosamente.');
+    };
 
-            console.log('Nodo guardado: ', this.state.nodo);
-            alert('Nodo guardado exitosamente.');
-            this.props.history.push('/lista-nodos');
-        } else {
-            console.error('No se pudieron guardar los datos.');
-        }
-    }
+    const handleDelete = async () => {
+        const updatedNodes = nodes.filter((n) => n.id !== nodoID);
+        await COSaService.saveCustNodes({custNode: updatedNodes});
+        setMessage('Nodo eliminado exitosamente.');
+    };
 
-    handleDelete = () => {
-        const storedNodes = localStorage.getItem('nodos');
-        if (storedNodes) {
-            const nodes = JSON.parse(storedNodes);
-            const updatedNodes = nodes.filter(
-                (n) => n.nodoID !== parseInt(this.props.match.params.nodoID, 10)
-            );
-
-            localStorage.setItem('nodos', JSON.stringify(updatedNodes));
-
-            console.log('Nodos después de la eliminación: ', updatedNodes);
-            alert('Nodo eliminado exitosamente.');
-            this.props.history.push('/lista-nodos');
-        } else {
-            console.error('No se encontraron nodos en localStorage para eliminar.');
-        }
-    }
-
-    render() {
-        const { nodoID } = this.props.match.params;
-        const { nodo } = this.state;
-
-        if (!nodo) {
-            return <p>No se pudo cargar el nodo. Verifica los datos.</p>;
-        }
-        
-        return (
-            <div className="addmargin">
-                <div className="main-container">
-                    <div className='top-button'>
-                        <Link to="/lista-nodos" className='home-button btn'><Home /></Link>
+    return (
+        <div className="addmargin">
+            <div className="main-container">
+                <div className='top-button'>
+                    <Link to="/lista-nodos" className='home-button btn'><Home /></Link>
+                </div>
+                <div className="sec-container">
+                    <div className="sec-header">
+                        <div className='header-grid-modif'>
+                            <h2 className="title">Modificar Tarea N° {nodoID}</h2>
+                            <Button className='delete-button' onClick={handleDelete}>
+                                <DeleteOutline /> Eliminar
+                            </Button>
+                        </div>
                     </div>
-                    
-                    <div className="sec-container">
-                        <div className="sec-header">
-                            <div className='header-grid-modif'>
-                                    <h2 className="title">Modificar Tarea N° {nodoID}</h2>
-                                    <p></p>
-                                    <Button className='delete-button' onClick={this.handleDelete}>
-                                        <DeleteOutline /> Eliminar
-                                    </Button> 
-                                </div>
-                        </div>
-
-                        <Form className='config-form'>
-                            <Form.Group as={Row} className="mb-3" controlId="formCoordenadas">
-                                <Form.Label column sm={4}>Coordenadas de Depósito</Form.Label>
-                                <Col sm={2}>
-                                    <Form.Control type="text" placeholder="Latitud" name="latitud" value={nodo.latitud || ''} onChange={this.handleInputChange}/>
-                                </Col>
-                                <Col sm={2}>
-                                    <Form.Control type="text" placeholder="Longitud" name="longitud" value={nodo.longitud || ''} onChange={this.handleInputChange}/>
-                                </Col>
-                            </Form.Group>
-    
-                            <Form.Group as={Row} className="mb-3" controlId="formDemanda">
-                                <Form.Label column sm={4}>Demanda</Form.Label>
-                                <Col sm={4}>
-                                    <Form.Control type='text' placeholder='Demanda' name="demanda" value={nodo.demanda || ''} onChange={this.handleInputChange}/>
-                                </Col>
-                            </Form.Group>
-    
-                            <Form.Group as={Row} className="mb-3" controlId="formHInicio">
-                                <Form.Label column sm={4}>Hora Inicio</Form.Label>
-                                <Col sm={4}>
-                                    <Form.Control type="text" placeholder="Hora Inicio" name='horaInicio' value={nodo.horaInicio || ''} onChange={this.handleInputChange} pattern='[0-9]{2}:[0-9]{2}' />
-                                </Col>
-                            </Form.Group>
-    
-    
-                            <Form.Group as={Row} className="mb-3" controlId="formHFin">
-                                <Form.Label column sm={4}>Hora Fin</Form.Label>
-                                <Col sm={4}>
-                                    <Form.Control type="text" placeholder="Hora Fin" name='horaFin' value={nodo.horaFin || ''} onChange={this.handleInputChange} pattern='[0-9]{2}:[0-9]{2}'/>
-                                </Col>
-                            </Form.Group>
-                        </Form>
-
-                        <div className="action-buttons">
-                            <Button onClick={this.handleSave}><TaskAlt />Guardar</Button>
-                            <Link to="/lista-nodos">
-                                <Button><HighlightOff />Cancelar</Button> {/* VersionAnterior: <Button onClick={() => this.props.history.push('/lista-nodos')}><HighlightOff />Cancelar</Button> */}
-                            </Link>
-                            
-                        </div>
+                    <Form className='config-form'>
+                        <Form.Group as={Row} className="mb-3" controlId="formCoordenadas">
+                            <Form.Label column sm={4}>Coordenadas de Depósito</Form.Label>
+                            <Col sm={2}>
+                                <Form.Control type="text" placeholder="Latitud" name="x" value={nodo.x} onChange={handleInputChange} />
+                            </Col>
+                            <Col sm={2}>
+                                <Form.Control type="text" placeholder="Longitud" name="y" value={nodo.y} onChange={handleInputChange} />
+                            </Col>
+                        </Form.Group>
+                        <Form.Group as={Row} className="mb-3" controlId="formDemanda">
+                            <Form.Label column sm={4}>Demanda</Form.Label>
+                            <Col sm={4}>
+                                <Form.Control type='text' placeholder='Demanda' name="demand" value={nodo.demand} onChange={handleInputChange} />
+                            </Col>
+                        </Form.Group>
+                        <Form.Group as={Row} className="mb-3" controlId="formHInicio">
+                            <Form.Label column sm={4}>Hora Inicio</Form.Label>
+                            <Col sm={4}>
+                                <Form.Control type="text" placeholder="Hora Inicio" name='begin' value={nodo.begin} onChange={handleInputChange} pattern='[0-9]{2}:[0-9]{2}' />
+                            </Col>
+                        </Form.Group>
+                        <Form.Group as={Row} className="mb-3" controlId="formHFin">
+                            <Form.Label column sm={4}>Hora Fin</Form.Label>
+                            <Col sm={4}>
+                                <Form.Control type="text" placeholder="Hora Fin" name='end' value={nodo.end} onChange={handleInputChange} pattern='[0-9]{2}:[0-9]{2}' />
+                            </Col>
+                        </Form.Group>
+                    </Form>
+                    <div className="action-buttons">
+                        <Button onClick={handleSave}><TaskAlt />Guardar</Button>
+                        <Link to="/lista-nodos">
+                            <Button><HighlightOff />Regresar</Button>
+                        </Link>
+                        {message && <label className="action-buttons">{message}</label>}
                     </div>
                 </div>
             </div>
-        );
-    }
+        </div>
+    );
 };
 
-export default withRouter(ModificarNodo);
+export default ModificarNodo;

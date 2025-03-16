@@ -96,7 +96,7 @@ const NuevoNodo = () => {
                 <div className="action-buttons">
                         <Button onClick={handleSave} disabled={!latitud || !longitud || !demanda || !horaInicio || !horaFin}><TaskAlt />Guardar</Button>
                         <Link to="/lista-nodos">
-                        <Button><HighlightOff />Cancelar</Button>
+                        <Button><HighlightOff />Regresar</Button>
                     </Link>
                 </div>
             </div>

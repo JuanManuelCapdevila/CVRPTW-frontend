@@ -20,8 +20,8 @@ const genericRequest = (method, endpoint, data = {}) => {
 };
 
 export const COSaService = {
-  saveConfig: () => genericRequest('PUT', 'saveConfig'),
+  saveConfig: (data) => genericRequest('PUT', 'saveConfig',data),
   getConfig: () => genericRequest('GET', 'getConfig'),
-  saveCustNodes: () => genericRequest('PUT', 'saveCustNode'),
+  saveCustNodes: (data) => genericRequest('PUT', 'saveCustNode',data),
   getCustNodes: () => genericRequest('GET', 'getcustNodes'),
 };

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState  } from 'react';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom'; 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -9,10 +9,9 @@ import { ConfigContext } from '../context/ConfigContext'; // Importamos el conte
 import { COSaService } from '../services/COSaService'; // Importamos el servicio
 
 import { HighlightOff, Home, TaskAlt } from '@mui/icons-material';
-
 const Configuracion = () => {
     const { config, setConfig } = useContext(ConfigContext);  // Usamos el hook useContext para acceder al contexto
-
+    const [message, setMessage] = useState(null);
     useEffect(() => {
         getConfig();
     }, []);
@@ -29,6 +28,27 @@ const Configuracion = () => {
             }
         };
 
+    const handleOnButtonClick = async () => {
+        try {
+            const newConfig = {
+                maxVehicles: config?.maxVehicles,
+                capacity: config?.capacity,
+                depotx: config?.depotx,
+                depoty: config?.depoty,
+                horizon: config?.horizon
+            };
+            console.log(newConfig);
+            const response = await COSaService.saveConfig({config: newConfig});
+            if (response) {
+                setConfig(newConfig);
+                setMessage("Actualizado correctamente!")
+            }
+        } catch (error) {
+            console.error('Error updating configuration data:', error);
+            setMessage("Error al intentar actualizar")
+
+        }
+    };
     return (
         <div className='addmargin'>
             <div className="main-container"> 
@@ -73,10 +93,11 @@ const Configuracion = () => {
                         </Form.Group>
                     </Form>
                     <div className="action-buttons">
-                        <Button><TaskAlt />Guardar</Button> 
-                        <Link to="/lista-nodos">
-                            <Button><HighlightOff />Cancelar</Button>
+                    <Button onClick={handleOnButtonClick}><TaskAlt />Guardar</Button>
+                    <Link to="/lista-nodos">
+                            <Button><HighlightOff />Regresar</Button>
                         </Link>
+                    {message && <label className="action-buttons">{message}</label>}
                     </div>
                 </div>
             </div>
