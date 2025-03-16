@@ -1,52 +1,71 @@
-import React, { useState} from 'react';
+import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom'; 
 import { Form, Button, Row, Col } from 'react-bootstrap';
+import { HighlightOff, Home, TaskAlt } from '@mui/icons-material';
+import { COSaService } from '../services/COSaService'; // Importar el servicio, si es necesario.
+import { ConfigContext } from '../context/ConfigContext';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../Styles/App.css';
 import '../Styles/Botones.css';
 import '../Styles/Container.css';
-import { HighlightOff, Home, TaskAlt } from '@mui/icons-material';
 
 const NuevoNodo = () => {
-    const [latitud, setLatitud] = useState('');
-    const [longitud, setLongitud] = useState('');
-    const [demanda, setDemanda] = useState('');
-    const [horaInicio, setHoraInicio] = useState('');
-    const [horaFin, setHoraFin] = useState('');
+    // Inicialización del estado como un objeto
+    const [nodo, setNodo] = useState({
+        latitud: '',
+        longitud: '',
+        demanda: '',
+        horaInicio: '',
+        horaFin: ''
+    });
+    const [message, setMessage] = useState(null);
+    const { nodes } = useContext(ConfigContext);
 
-    const handleSave = () => {
-        const storedNodes = localStorage.getItem('nodos');
-        let nodes = storedNodes ? JSON.parse(storedNodes) : [];
-
-        const maxId = nodes.reduce((max, node) => Math.max(max, node.nodoID), 0);
-        const nuevoNodoID = maxId + 1;
-
-        const nuevoNodo = {
-            nodoID: nuevoNodoID, 
-            latitud, 
-            longitud,
-            demanda,
-            tiempoInicio : horaInicio,
-            tiempoFin : horaFin, 
-            servicioDuración: calcularDuracion(horaInicio, horaFin) 
-        };
-
-        nodes.push(nuevoNodo);
-
-        localStorage.setItem('nodos', JSON.stringify(nodes));
-
-        alert('Nodo guardado exitosamente.');
-        this.props.history.push('/lista-nodos');
-
+    // Maneja los cambios en los campos de formulario
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setNodo((prevNodo) => ({
+            ...prevNodo,
+            [name]: value
+        }));
     };
 
-    const calcularDuracion = (horaInicio, horaFin) => {
-        const [inicioH, inicioM] = horaInicio.split(':');
-        const [finH, finM] = horaFin.split(':');
-        const duracionH = finH - inicioH;
-        const duracionM = finM - inicioM;
-        return duracionH * 60 + duracionM;
+    // Función para guardar el nuevo nodo
+    const handleSave = async () => {
+        // Supongamos que los nodos se guardan con un servicio.
+        try {
+            let currentNodes = nodes;
+            console.log(currentNodes);
+            
+            const maxId = currentNodes.length;
+            const nuevoNodoID = maxId + 1;
+
+            const nuevoNodo = {
+                id: nuevoNodoID, 
+                x: nodo.latitud, 
+                y: nodo.longitud,
+                demand: nodo.demanda,   
+                begin: nodo.horaInicio,
+                end: nodo.horaFin,
+                service:  nodo.horaFin-nodo.horaInicio
+            };
+
+            currentNodes.push(nuevoNodo);
+
+
+            // Llamada al servicio para guardar el nodo (si es necesario)
+            await COSaService.saveCustNodes({ custNode: currentNodes });
+
+            setMessage('Nodo guardado exitosamente.');
+            // Redirigir a la lista de nodos (puedes usar el `useHistory` de react-router si es necesario)
+            setTimeout(() => {
+                window.location.href = '/lista-nodos'; // O usa un hook de historia
+            }, 1000); 
+        } catch (error) {
+            console.error('Error guardando el nodo:', error);
+            setMessage('Error al guardar el nodo.');
+        }
     };
 
     return (
@@ -58,50 +77,84 @@ const NuevoNodo = () => {
 
                 <div className="sec-container">
                     <div className="sec-header">
-                        <h2 className="title">Crear Tarea</h2>
+                        <h2 className="title">Crear Nodo</h2>
                     </div>
-                <Form className='config-form'>
-                    <Form.Group as={Row} className="mb-3" controlId="formCoordenadas">
-                        <Form.Label column sm={4}>Coordenadas de Depósito</Form.Label>
-                        <Col sm={2}>
-                            <Form.Control type="text" placeholder="Latitud" value={latitud} onChange={(e) => setLatitud(e.target.value)}/>
-                        </Col>
-                        <Col sm={2}>
-                            <Form.Control type="text" placeholder="Longitud" value={longitud} onChange={(e) => setLongitud(e.target.value)}/>
-                        </Col>
-                    </Form.Group>
+                    <Form className='config-form'>
+                        <Form.Group as={Row} className="mb-3" controlId="formCoordenadas">
+                            <Form.Label column sm={4}>Coordenadas</Form.Label>
+                            <Col sm={2}>
+                                <Form.Control
+                                    type="text"
+                                    placeholder="Latitud"
+                                    name="latitud"
+                                    value={nodo.latitud}
+                                    onChange={handleInputChange}
+                                />
+                            </Col>
+                            <Col sm={2}>
+                                <Form.Control
+                                    type="text"
+                                    placeholder="Longitud"
+                                    name="longitud"
+                                    value={nodo.longitud}
+                                    onChange={handleInputChange}
+                                />
+                            </Col>
+                        </Form.Group>
 
-                    <Form.Group as={Row} className="mb-3" controlId="formDemanda">
-                        <Form.Label column sm={4}>Demanda</Form.Label>
-                        <Col sm={4}>
-                            <Form.Control type='text' placeholder='Demanda' value={demanda} onChange={(e) => setDemanda(e.target.value)}/>
-                        </Col>
-                    </Form.Group>
+                        <Form.Group as={Row} className="mb-3" controlId="formDemanda">
+                            <Form.Label column sm={4}>Demanda</Form.Label>
+                            <Col sm={4}>
+                                <Form.Control
+                                    type="text"
+                                    placeholder="Demanda"
+                                    name="demanda"
+                                    value={nodo.demanda}
+                                    onChange={handleInputChange}
+                                />
+                            </Col>
+                        </Form.Group>
 
-                    <Form.Group as={Row} className="mb-3" controlId="formHInicio">
-                        <Form.Label column sm={4}>Hora Inicio</Form.Label>
-                        <Col sm={4}>
-                            <Form.Control type="text" placeholder="Hora Inicio" value={horaInicio} onChange={(e) => setHoraInicio(e.target.value)}/>
-                        </Col>
-                    </Form.Group>
+                        <Form.Group as={Row} className="mb-3" controlId="formHInicio">
+                            <Form.Label column sm={4}>Hora Inicio</Form.Label>
+                            <Col sm={4}>
+                                <Form.Control
+                                    type="text"
+                                    placeholder="Hora Inicio"
+                                    name="horaInicio"
+                                    value={nodo.horaInicio}
+                                    onChange={handleInputChange}
+                                />
+                            </Col>
+                        </Form.Group>
 
-                    <Form.Group as={Row} className="mb-3" controlId="formHFin">
-                        <Form.Label column sm={4}>Hora Fin</Form.Label>
-                        <Col sm={4}>
-                            <Form.Control type="text" placeholder="Hora Fin" value={horaFin} onChange={(e) => setHoraFin(e.target.value)}/>
-                        </Col>
-                    </Form.Group>
-                </Form>
+                        <Form.Group as={Row} className="mb-3" controlId="formHFin">
+                            <Form.Label column sm={4}>Hora Fin</Form.Label>
+                            <Col sm={4}>
+                                <Form.Control
+                                    type="text"
+                                    placeholder="Hora Fin"
+                                    name="horaFin"
+                                    value={nodo.horaFin}
+                                    onChange={handleInputChange}
+                                />
+                            </Col>
+                        </Form.Group>
+                    </Form>
 
-                <div className="action-buttons">
-                        <Button onClick={handleSave} disabled={!latitud || !longitud || !demanda || !horaInicio || !horaFin}><TaskAlt />Guardar</Button>
+                    <div className="action-buttons">
+                        <Button onClick={handleSave} disabled={!nodo.latitud || !nodo.longitud || !nodo.demanda || !nodo.horaInicio || !nodo.horaFin}>
+                            <TaskAlt />Guardar
+                        </Button>
                         <Link to="/lista-nodos">
-                        <Button><HighlightOff />Regresar</Button>
-                    </Link>
+                            <Button><HighlightOff />Regresar</Button>
+                        </Link>
+                        {message && <label className="action-buttons">{message}</label>}
+                    </div>
                 </div>
-            </div>
             </div>
         </div>
     );
 };
+
 export default NuevoNodo;

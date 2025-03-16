@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useState  } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Form, Button, Row, Col } from 'react-bootstrap';
-import { Link } from 'react-router-dom'; 
+import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../Styles/App.css';
 import '../Styles/Botones.css';
@@ -9,24 +9,34 @@ import { ConfigContext } from '../context/ConfigContext'; // Importamos el conte
 import { COSaService } from '../services/COSaService'; // Importamos el servicio
 
 import { HighlightOff, Home, TaskAlt } from '@mui/icons-material';
+
 const Configuracion = () => {
     const { config, setConfig } = useContext(ConfigContext);  // Usamos el hook useContext para acceder al contexto
     const [message, setMessage] = useState(null);
+
     useEffect(() => {
         getConfig();
     }, []);
+
     const getConfig = async () => {
-            try {
-                const response = await COSaService.getConfig();  // Usamos el servicio aquí
-                if (response) {
-                    
-                    setConfig(response.data[0]);  // Actualiza el contexto con la respuesta de la API
-                }
-            } catch (error) {
-                console.error('Error loading configuration data:', error);
-                setError('No se pudo cargar la configuración');
+        try {
+            const response = await COSaService.getConfig();  // Usamos el servicio aquí
+            if (response) {
+                setConfig(response.data[0]);  // Actualiza el contexto con la respuesta de la API
             }
-        };
+        } catch (error) {
+            console.error('Error loading configuration data:', error);
+            setError('No se pudo cargar la configuración');
+        }
+    };
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setConfig((prevConfig) => ({
+            ...prevConfig,
+            [name]: value
+        }));
+    };
 
     const handleOnButtonClick = async () => {
         try {
@@ -38,20 +48,20 @@ const Configuracion = () => {
                 horizon: config?.horizon
             };
             console.log(newConfig);
-            const response = await COSaService.saveConfig({config: newConfig});
+            const response = await COSaService.saveConfig({ config: newConfig });
             if (response) {
                 setConfig(newConfig);
-                setMessage("Actualizado correctamente!")
+                setMessage("Actualizado correctamente!");
             }
         } catch (error) {
             console.error('Error updating configuration data:', error);
-            setMessage("Error al intentar actualizar")
-
+            setMessage("Error al intentar actualizar");
         }
     };
+
     return (
         <div className='addmargin'>
-            <div className="main-container"> 
+            <div className="main-container">
                 <div className='top-button'>
                     <Link to="/lista-nodos" className='home-button btn'><Home /></Link>
                 </div>
@@ -64,45 +74,74 @@ const Configuracion = () => {
                         <Form.Group as={Row} className="mb-3" controlId="formVehiculos">
                             <Form.Label column sm={4}>Cantidad de Vehículos</Form.Label>
                             <Col sm={4}>
-                                <Form.Control type='text' placeholder='Cantidad' value={config?.maxVehicles||""}></Form.Control>
+                                <Form.Control
+                                    type='text'
+                                    placeholder='Cantidad'
+                                    value={config?.maxVehicles || ""}
+                                    name="maxVehicles"
+                                    onChange={handleInputChange}
+                                />
                             </Col>
                         </Form.Group>
 
                         <Form.Group as={Row} className="mb-3" controlId="formCapacidad">
                             <Form.Label column sm={4}>Capacidad</Form.Label>
                             <Col sm={4}>
-                                <Form.Control type="text" placeholder="Capacidad" value={config?.capacity||""}/>
+                                <Form.Control
+                                    type="text"
+                                    placeholder="Capacidad"
+                                    value={config?.capacity || ""}
+                                    name="capacity"
+                                    onChange={handleInputChange}
+                                />
                             </Col>
                         </Form.Group>
 
                         <Form.Group as={Row} className="mb-3" controlId="formCoordenadas">
-                            <Form.Label column sm={4}>Coordenadas de Depósito</Form.Label>
+                            <Form.Label column sm={4}>Coordenadas</Form.Label>
                             <Col sm={2}>
-                                <Form.Control type="text" placeholder="Latitud" value={config?.depotx||""}/>
+                                <Form.Control
+                                    type="text"
+                                    placeholder="Latitud"
+                                    value={config?.depotx || ""}
+                                    name="depotx"
+                                    onChange={handleInputChange}
+                                />
                             </Col>
                             <Col sm={2}>
-                                <Form.Control type="text" placeholder="Longitud" value={config?.depoty||""} />
+                                <Form.Control
+                                    type="text"
+                                    placeholder="Longitud"
+                                    value={config?.depoty || ""}
+                                    name="depoty"
+                                    onChange={handleInputChange}
+                                />
                             </Col>
                         </Form.Group>
 
                         <Form.Group as={Row} className="mb-3" controlId="formHorizonte">
                             <Form.Label column sm={4}>Horizonte</Form.Label>
                             <Col sm={4}>
-                                <Form.Control type="text" placeholder="Horizonte" value={config?.horizon||""} />
+                                <Form.Control
+                                    type="text"
+                                    placeholder="Horizonte"
+                                    value={config?.horizon || ""}
+                                    name="horizon"
+                                    onChange={handleInputChange}
+                                />
                             </Col>
                         </Form.Group>
                     </Form>
                     <div className="action-buttons">
-                    <Button onClick={handleOnButtonClick}><TaskAlt />Guardar</Button>
-                    <Link to="/lista-nodos">
+                        <Button onClick={handleOnButtonClick}><TaskAlt />Guardar</Button>
+                        <Link to="/lista-nodos">
                             <Button><HighlightOff />Regresar</Button>
                         </Link>
-                    {message && <label className="action-buttons">{message}</label>}
+                        {message && <label className="action-buttons">{message}</label>}
                     </div>
                 </div>
             </div>
         </div>
-        
     );
 };
 
