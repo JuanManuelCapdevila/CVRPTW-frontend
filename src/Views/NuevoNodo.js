@@ -38,8 +38,7 @@ const NuevoNodo = () => {
             let currentNodes = nodes;
             console.log(currentNodes);
             
-            const maxId = currentNodes.length;
-            const nuevoNodoID = maxId + 1;
+            const nuevoNodoID = currentNodes.length;
 
             const nuevoNodo = {
                 id: nuevoNodoID, 

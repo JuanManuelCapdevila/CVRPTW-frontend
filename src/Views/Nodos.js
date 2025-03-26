@@ -15,6 +15,8 @@ const Customers = () => {
     const [nodeCount, setNodeCount] = useState(0);
     const [error, setError] = useState(null);
     const [process, setProcess] = useState(false)
+    const [message, setMessage] = useState(null);
+
     // Se llama después de que el componente se monta
     useEffect(() => {
         getConfig();
@@ -52,10 +54,10 @@ const Customers = () => {
     const handleOptimize = async () => {
         try {
             const response = await IBMService.resolve();
-            if (response) {
+            if (!response?.error) {
                 console.log(response);
                 setProcess(true);
-        }
+            }
     } catch (error) {
         console.error('Error optimizing route:', error);
         setError('No se pudo optimizar la ruta');
@@ -132,6 +134,7 @@ const Customers = () => {
                         <Link to="/nuevo-nodo" className="btn"><AddCircleOutline /> Nuevo Nodo</Link>
                         <button className="btn" onClick={handleOptimize}><LocalShipping /> Optimizar</button>
                         {process && <Link to="/optimizar" className="btn"><ShowChart /> Ver Resultados</Link>}
+                        {message && <label className="action-buttons">{message}</label>}
                     </div>
                 </div>
             </div>

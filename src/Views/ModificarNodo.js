@@ -49,10 +49,15 @@ const ModificarNodo = (props) => {
     };
 
     const handleDelete = async () => {
-        const updatedNodes = nodes.filter((n) => n.id !== nodoID);
-        await COSaService.saveCustNodes({custNode: updatedNodes});
-        setMessage('Nodo eliminado exitosamente.');
-    };
+    const updatedNodes = nodes.filter((n) => n.id !== nodoID);
+    updatedNodes.forEach((n, index) => {
+        if (n.id > nodoID) {
+            n.id -= 1;
+        }
+    });
+    await COSaService.saveCustNodes({custNode: updatedNodes});
+    setMessage('Nodo eliminado exitosamente.');
+};
 
     return (
         <div className="addmargin">
